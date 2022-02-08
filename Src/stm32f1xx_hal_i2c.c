@@ -5709,7 +5709,9 @@ static void I2C_MasterReceive_RXNE(I2C_HandleTypeDef *hi2c)
     }
     else
     {
-      /* Do nothing */
+      /* Disable BUF interrupt, this help to treat correctly the last 2 bytes
+         on BTF subroutine if there is a reception delay between N-1 and N byte */
+      __HAL_I2C_DISABLE_IT(hi2c, I2C_IT_BUF);
     }
   }
 }
