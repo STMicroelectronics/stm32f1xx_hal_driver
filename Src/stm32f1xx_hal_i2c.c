@@ -3194,6 +3194,10 @@ HAL_StatusTypeDef HAL_I2C_Mem_Write_DMA(I2C_HandleTypeDef *hi2c, uint16_t DevAdd
     hi2c->XferCount   = Size;
     hi2c->XferSize    = hi2c->XferCount;
     hi2c->XferOptions = I2C_NO_OPTION_FRAME;
+    hi2c->Devaddress  = DevAddress;
+    hi2c->Memaddress  = MemAddress;
+    hi2c->MemaddSize  = MemAddSize;
+    hi2c->EventCount  = 0U;
 
     if (hi2c->XferSize > 0U)
     {
@@ -3372,6 +3376,10 @@ HAL_StatusTypeDef HAL_I2C_Mem_Read_DMA(I2C_HandleTypeDef *hi2c, uint16_t DevAddr
     hi2c->XferCount   = Size;
     hi2c->XferSize    = hi2c->XferCount;
     hi2c->XferOptions = I2C_NO_OPTION_FRAME;
+    hi2c->Devaddress  = DevAddress;
+    hi2c->Memaddress  = MemAddress;
+    hi2c->MemaddSize  = MemAddSize;
+    hi2c->EventCount  = 0U;
 
     if (hi2c->XferSize > 0U)
     {
