@@ -378,8 +378,8 @@ HAL_StatusTypeDef HAL_RTC_Init(RTC_HandleTypeDef *hrtc)
     }
 
     /* Configure the RTC_PRLH / RTC_PRLL */
-    MODIFY_REG(hrtc->Instance->PRLH, RTC_PRLH_PRL, (prescaler >> 16U));
-    MODIFY_REG(hrtc->Instance->PRLL, RTC_PRLL_PRL, (prescaler & RTC_PRLL_PRL));
+    WRITE_REG(hrtc->Instance->PRLH, ((prescaler >> 16U) & RTC_PRLH_PRL));
+    WRITE_REG(hrtc->Instance->PRLL, (prescaler & RTC_PRLL_PRL));
 
     /* Wait for synchro */
     if (RTC_ExitInitMode(hrtc) != HAL_OK)
