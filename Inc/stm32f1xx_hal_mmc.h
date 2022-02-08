@@ -145,6 +145,8 @@ typedef struct
   
   uint32_t                     CID[4U];          /*!< MMC card identification number table */
   
+  uint32_t                     Ext_CSD[128];
+
 #if defined (USE_HAL_MMC_REGISTER_CALLBACKS) && (USE_HAL_MMC_REGISTER_CALLBACKS == 1U)
   void (* TxCpltCallback)                 (struct __MMC_HandleTypeDef *hmmc);
   void (* RxCpltCallback)                 (struct __MMC_HandleTypeDef *hmmc);
@@ -334,10 +336,12 @@ typedef void (*pMMC_CallbackTypeDef)           (MMC_HandleTypeDef *hmmc);
 /** 
   * @brief 
   */
-#define MMC_HIGH_VOLTAGE_RANGE         0x80FF8000U  /*!< VALUE OF ARGUMENT            */
-#define MMC_DUAL_VOLTAGE_RANGE         0x80FF8080U  /*!< VALUE OF ARGUMENT            */
-#define eMMC_HIGH_VOLTAGE_RANGE        0xC0FF8000U  /*!< for eMMC > 2Gb sector mode   */
-#define eMMC_DUAL_VOLTAGE_RANGE        0xC0FF8080U  /*!< for eMMC > 2Gb sector mode   */
+#define MMC_HIGH_VOLTAGE_RANGE         0x80FF8000U  /*!< High voltage in byte mode    */
+#define MMC_DUAL_VOLTAGE_RANGE         0x80FF8080U  /*!< Dual voltage in byte mode    */
+#define MMC_LOW_VOLTAGE_RANGE          0x80000080U  /*!< Low voltage in byte mode     */
+#define EMMC_HIGH_VOLTAGE_RANGE        0xC0FF8000U  /*!< High voltage in sector mode  */
+#define EMMC_DUAL_VOLTAGE_RANGE        0xC0FF8080U  /*!< Dual voltage in sector mode  */
+#define EMMC_LOW_VOLTAGE_RANGE         0xC0000080U  /*!< Low voltage in sector mode   */
 #define MMC_INVALID_VOLTAGE_RANGE      0x0001FF01U 
 /**
   * @}
@@ -636,6 +640,7 @@ HAL_MMC_CardStateTypeDef HAL_MMC_GetCardState(MMC_HandleTypeDef *hmmc);
 HAL_StatusTypeDef HAL_MMC_GetCardCID(MMC_HandleTypeDef *hmmc, HAL_MMC_CardCIDTypeDef *pCID);
 HAL_StatusTypeDef HAL_MMC_GetCardCSD(MMC_HandleTypeDef *hmmc, HAL_MMC_CardCSDTypeDef *pCSD);
 HAL_StatusTypeDef HAL_MMC_GetCardInfo(MMC_HandleTypeDef *hmmc, HAL_MMC_CardInfoTypeDef *pCardInfo);
+HAL_StatusTypeDef HAL_MMC_GetCardExtCSD(MMC_HandleTypeDef *hmmc, uint32_t *pExtCSD, uint32_t Timeout);
 /**
   * @}
   */
@@ -649,7 +654,7 @@ uint32_t HAL_MMC_GetError(MMC_HandleTypeDef *hmmc);
   * @}
   */
 
-/** @defgroup MMC_Exported_Functions_Group6 Perioheral Abort management
+/** @defgroup MMC_Exported_Functions_Group6 Peripheral Abort management
   * @{
   */
 HAL_StatusTypeDef HAL_MMC_Abort(MMC_HandleTypeDef *hmmc);
