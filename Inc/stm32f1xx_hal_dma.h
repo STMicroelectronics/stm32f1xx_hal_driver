@@ -109,29 +109,29 @@ typedef enum
   */
 typedef struct __DMA_HandleTypeDef
 {
-  DMA_Channel_TypeDef   *Instance;                       /*!< Register base address                  */
+  DMA_Channel_TypeDef        *Instance;                                                    /*!< Register base address                  */
   
-  DMA_InitTypeDef       Init;                            /*!< DMA communication parameters           */ 
+  DMA_InitTypeDef            Init;                                                         /*!< DMA communication parameters           */
   
-  HAL_LockTypeDef       Lock;                            /*!< DMA locking object                     */  
+  HAL_LockTypeDef            Lock;                                                         /*!< DMA locking object                     */
   
-  HAL_DMA_StateTypeDef  State;                           /*!< DMA transfer state                     */
+  __IO HAL_DMA_StateTypeDef  State;                                                        /*!< DMA transfer state                     */
   
-  void                  *Parent;                                                      /*!< Parent object state                    */  
+  void                       *Parent;                                                      /*!< Parent object state                    */
   
-  void                  (* XferCpltCallback)( struct __DMA_HandleTypeDef * hdma);     /*!< DMA transfer complete callback         */
+  void                       (* XferCpltCallback)( struct __DMA_HandleTypeDef * hdma);     /*!< DMA transfer complete callback         */
   
-  void                  (* XferHalfCpltCallback)( struct __DMA_HandleTypeDef * hdma); /*!< DMA Half transfer complete callback    */
+  void                       (* XferHalfCpltCallback)( struct __DMA_HandleTypeDef * hdma); /*!< DMA Half transfer complete callback    */
   
-  void                  (* XferErrorCallback)( struct __DMA_HandleTypeDef * hdma);    /*!< DMA transfer error callback            */
+  void                       (* XferErrorCallback)( struct __DMA_HandleTypeDef * hdma);    /*!< DMA transfer error callback            */
 
-  void                  (* XferAbortCallback)( struct __DMA_HandleTypeDef * hdma);    /*!< DMA transfer abort callback            */  
+  void                       (* XferAbortCallback)( struct __DMA_HandleTypeDef * hdma);    /*!< DMA transfer abort callback            */
   
-  __IO uint32_t         ErrorCode;                                                    /*!< DMA Error code                         */
+  __IO uint32_t              ErrorCode;                                                    /*!< DMA Error code                         */
 
-  DMA_TypeDef            *DmaBaseAddress;                                             /*!< DMA Channel Base Address               */
+  DMA_TypeDef                *DmaBaseAddress;                                             /*!< DMA Channel Base Address               */
   
-  uint32_t               ChannelIndex;                                                /*!< DMA Channel Index                      */  
+  uint32_t                   ChannelIndex;                                                /*!< DMA Channel Index                      */
 
 } DMA_HandleTypeDef;    
 /**
