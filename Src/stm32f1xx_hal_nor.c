@@ -230,6 +230,7 @@ HAL_StatusTypeDef HAL_NOR_Init(NOR_HandleTypeDef *hnor, FSMC_NORSRAM_TimingTypeD
                                FSMC_NORSRAM_TimingTypeDef *ExtTiming)
 {
   uint32_t deviceaddress;
+  HAL_StatusTypeDef status = HAL_OK;
 
   /* Check the NOR handle parameter */
   if (hnor == NULL)
@@ -299,11 +300,23 @@ HAL_StatusTypeDef HAL_NOR_Init(NOR_HandleTypeDef *hnor, FSMC_NORSRAM_TimingTypeD
     deviceaddress = NOR_MEMORY_ADRESS4;
   }
 
+  FSMC_NORSRAM_WriteOperation_Enable(hnor->Instance,hnor->Init.NSBank);
+  
   /* Get the value of the command set */
   NOR_WRITE(NOR_ADDR_SHIFT(deviceaddress, uwNORMemoryDataWidth, NOR_CMD_ADDRESS_FIRST_CFI), NOR_CMD_DATA_CFI);
   hnor->CommandSet = *(__IO uint16_t *) NOR_ADDR_SHIFT(deviceaddress, uwNORMemoryDataWidth, NOR_ADDRESS_COMMAND_SET);
+  
+  status = HAL_NOR_ReturnToReadMode(hnor);
 
-  return HAL_NOR_ReturnToReadMode(hnor);
+  if (hnor->Init.WriteOperation == FSMC_WRITE_OPERATION_DISABLE)
+  {
+    FSMC_NORSRAM_WriteOperation_Disable(hnor->Instance,hnor->Init.NSBank);
+
+    /* Update the NOR controller state */
+    hnor->State = HAL_NOR_STATE_PROTECTED;
+  }
+
+  return status;
 }
 
 /**
