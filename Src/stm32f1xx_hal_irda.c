@@ -1012,8 +1012,16 @@ HAL_StatusTypeDef HAL_IRDA_Receive_IT(IRDA_HandleTypeDef *hirda, uint8_t *pData,
     /* Process Unlocked */
     __HAL_UNLOCK(hirda);
 
-    /* Enable the IRDA Parity Error and Data Register Not Empty Interrupts */
-    SET_BIT(hirda->Instance->CR1, USART_CR1_PEIE | USART_CR1_RXNEIE);
+    if (hirda->Init.Parity != IRDA_PARITY_NONE)
+    {
+      /* Enable the IRDA Parity Error and Data Register Not Empty Interrupts */
+      SET_BIT(hirda->Instance->CR1, USART_CR1_PEIE | USART_CR1_RXNEIE);
+    }
+    else
+    {
+      /* Enable the IRDA Data Register Not Empty Interrupts */
+       SET_BIT(hirda->Instance->CR1, USART_CR1_RXNEIE); 
+    }
 
     /* Enable the IRDA Error Interrupt: (Frame error, Noise error, Overrun error) */
     SET_BIT(hirda->Instance->CR3, USART_CR3_EIE);
@@ -1148,8 +1156,11 @@ HAL_StatusTypeDef HAL_IRDA_Receive_DMA(IRDA_HandleTypeDef *hirda, uint8_t *pData
     /* Process Unlocked */
     __HAL_UNLOCK(hirda);
 
-    /* Enable the IRDA Parity Error Interrupt */
-    SET_BIT(hirda->Instance->CR1, USART_CR1_PEIE);
+    if (hirda->Init.Parity != IRDA_PARITY_NONE)
+    {
+      /* Enable the IRDA Parity Error Interrupt */
+      SET_BIT(hirda->Instance->CR1, USART_CR1_PEIE);
+    }
 
     /* Enable the IRDA Error Interrupt: (Frame error, Noise error, Overrun error) */
     SET_BIT(hirda->Instance->CR3, USART_CR3_EIE);
@@ -1226,7 +1237,10 @@ HAL_StatusTypeDef HAL_IRDA_DMAResume(IRDA_HandleTypeDef *hirda)
     __HAL_IRDA_CLEAR_OREFLAG(hirda);
 
     /* Re-enable PE and ERR (Frame error, noise error, overrun error) interrupts */
-    SET_BIT(hirda->Instance->CR1, USART_CR1_PEIE);
+    if (hirda->Init.Parity != IRDA_PARITY_NONE)
+    {    
+      SET_BIT(hirda->Instance->CR1, USART_CR1_PEIE);
+    }
     SET_BIT(hirda->Instance->CR3, USART_CR3_EIE);
 
     /* Enable the IRDA DMA Rx request */
