@@ -733,11 +733,16 @@ void HAL_CEC_ChangeRxBuffer(CEC_HandleTypeDef *hcec, uint8_t* Rxbuffer)
   */
 void HAL_CEC_IRQHandler(CEC_HandleTypeDef *hcec)
 {
+
+  /* save interrupts register for further error or interrupts handling purposes */
+  uint32_t itflag;
+  itflag = hcec->Instance->CSR;
+
   /* Save error status register for further error handling purposes */
   hcec->ErrorCode = READ_BIT(hcec->Instance->ESR, CEC_ESR_ALL_ERROR);
 
   /* Transmit error */
-  if(__HAL_CEC_GET_FLAG(hcec, CEC_FLAG_TERR) != RESET)
+  if (HAL_IS_BIT_SET(itflag, CEC_FLAG_TERR))
   {
     /* Acknowledgement of the error */
     __HAL_CEC_CLEAR_FLAG(hcec, CEC_FLAG_TERR);
@@ -746,7 +751,7 @@ void HAL_CEC_IRQHandler(CEC_HandleTypeDef *hcec)
   }
   
   /* Receive error */
-  if(__HAL_CEC_GET_FLAG(hcec, CEC_FLAG_RERR) != RESET)
+  if (HAL_IS_BIT_SET(itflag, CEC_FLAG_RERR))
   {
     /* Acknowledgement of the error */
     __HAL_CEC_CLEAR_FLAG(hcec, CEC_FLAG_RERR);
@@ -766,13 +771,13 @@ void HAL_CEC_IRQHandler(CEC_HandleTypeDef *hcec)
   }
   
   /* Transmit byte request or block transfer finished */
-  if(__HAL_CEC_GET_FLAG(hcec, CEC_FLAG_TBTRF) != RESET)
+  if (HAL_IS_BIT_SET(itflag, CEC_FLAG_TBTRF))
   {
     CEC_Transmit_IT(hcec);
   }
 
   /* Receive byte or block transfer finished */
-  if(__HAL_CEC_GET_FLAG(hcec, CEC_FLAG_RBTF) != RESET)
+  if (HAL_IS_BIT_SET(itflag, CEC_FLAG_RBTF))
   {
     if(hcec->RxXferSize == 0U)
     {
