@@ -2231,11 +2231,12 @@ static void IRDA_DMAError(DMA_HandleTypeDef *hdma)
 }
 
 /**
-  * @brief  This function handles IRDA Communication Timeout.
+  * @brief  This function handles IRDA Communication Timeout. It waits
+  *         until a flag is no longer in the specified status.
   * @param  hirda  Pointer to a IRDA_HandleTypeDef structure that contains
   *                the configuration information for the specified IRDA.
   * @param  Flag specifies the IRDA flag to check.
-  * @param  Status The new Flag status (SET or RESET).
+  * @param  Status The actual Flag status (SET or RESET).
   * @param  Tickstart Tick start value
   * @param  Timeout Timeout duration
   * @retval HAL status
