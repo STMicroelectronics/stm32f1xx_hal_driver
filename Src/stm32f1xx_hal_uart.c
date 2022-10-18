@@ -3165,11 +3165,12 @@ static void UART_DMAError(DMA_HandleTypeDef *hdma)
 }
 
 /**
-  * @brief  This function handles UART Communication Timeout.
+  * @brief  This function handles UART Communication Timeout. It waits
+  *         until a flag is no longer in the specified status.
   * @param  huart  Pointer to a UART_HandleTypeDef structure that contains
   *                the configuration information for the specified UART module.
   * @param  Flag specifies the UART flag to check.
-  * @param  Status The new Flag status (SET or RESET).
+  * @param  Status The actual Flag status (SET or RESET).
   * @param  Tickstart Tick start value
   * @param  Timeout Timeout duration
   * @retval HAL status
