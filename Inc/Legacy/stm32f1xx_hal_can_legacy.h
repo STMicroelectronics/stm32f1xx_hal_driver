@@ -428,7 +428,7 @@ typedef struct
 #define MSR_REGISTER_INDEX      0x1U
 #define ESR_REGISTER_INDEX      0x3U
 
-/* CAN flags bits position into their respective register (TSR, RF0R, RF1R or MSR regsiters) */
+/* CAN flags bits position into their respective register (TSR, RF0R, RF1R or MSR registers) */
 /* Transmit Flags */
 #define CAN_TSR_RQCP0_BIT_POSITION     0x00000000U
 #define CAN_TSR_RQCP1_BIT_POSITION     0x00000008U
