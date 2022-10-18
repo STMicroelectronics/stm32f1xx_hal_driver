@@ -1918,11 +1918,12 @@ static void SMARTCARD_DMAError(DMA_HandleTypeDef *hdma)
 }
 
 /**
-  * @brief  This function handles SMARTCARD Communication Timeout.
+  * @brief  This function handles SMARTCARD Communication Timeout. It waits
+  *         until a flag is no longer in the specified status.
   * @param  hsc    Pointer to a SMARTCARD_HandleTypeDef structure that contains
   *                the configuration information for SMARTCARD module.
   * @param  Flag   Specifies the SMARTCARD flag to check.
-  * @param  Status The new Flag status (SET or RESET).
+  * @param  Status The actual Flag status (SET or RESET).
   * @param  Timeout Timeout duration
   * @param  Tickstart Tick start value
   * @retval HAL status
