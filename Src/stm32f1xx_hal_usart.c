@@ -2307,11 +2307,12 @@ static void USART_DMAError(DMA_HandleTypeDef *hdma)
 }
 
 /**
-  * @brief  This function handles USART Communication Timeout.
+  * @brief  This function handles USART Communication Timeout. It waits
+  *         until a flag is no longer in the specified status.
   * @param  husart Pointer to a USART_HandleTypeDef structure that contains
   *                the configuration information for the specified USART module.
   * @param  Flag specifies the USART flag to check.
-  * @param  Status The new Flag status (SET or RESET).
+  * @param  Status The actual Flag status (SET or RESET).
   * @param  Tickstart Tick start value.
   * @param  Timeout Timeout duration.
   * @retval HAL status
