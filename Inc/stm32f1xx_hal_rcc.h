@@ -613,7 +613,7 @@ typedef struct
   * @brief  Force or release APB1 peripheral reset.
   * @{
   */
-#define __HAL_RCC_APB1_FORCE_RESET()       (RCC->APB2RSTR = 0xFFFFFFFFU)
+#define __HAL_RCC_APB1_FORCE_RESET()       (RCC->APB1RSTR = 0xFFFFFFFFU)
 #define __HAL_RCC_TIM2_FORCE_RESET()       (RCC->APB1RSTR |= (RCC_APB1RSTR_TIM2RST))
 #define __HAL_RCC_TIM3_FORCE_RESET()       (RCC->APB1RSTR |= (RCC_APB1RSTR_TIM3RST))
 #define __HAL_RCC_WWDG_FORCE_RESET()       (RCC->APB1RSTR |= (RCC_APB1RSTR_WWDGRST))
