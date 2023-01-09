@@ -803,6 +803,60 @@ HAL_StatusTypeDef USB_EP0StartXfer(USB_OTG_GlobalTypeDef *USBx, USB_OTG_EPTypeDe
   return HAL_OK;
 }
 
+
+/**
+   * @brief  USB_EPStoptXfer  Stop transfer on an EP
+   * @param  USBx  usb device instance
+   * @param  ep pointer to endpoint structure
+   * @retval HAL status
+   */
+HAL_StatusTypeDef USB_EPStopXfer(USB_OTG_GlobalTypeDef *USBx, USB_OTG_EPTypeDef *ep)
+{
+  __IO uint32_t count = 0U;
+  HAL_StatusTypeDef ret = HAL_OK;
+  uint32_t USBx_BASE = (uint32_t)USBx;
+
+  /* IN endpoint */
+  if (ep->is_in == 1U)
+  {
+    /* EP enable, IN data in FIFO */
+    if (((USBx_INEP(ep->num)->DIEPCTL) & USB_OTG_DIEPCTL_EPENA) == USB_OTG_DIEPCTL_EPENA)
+    {
+      USBx_INEP(ep->num)->DIEPCTL |= (USB_OTG_DIEPCTL_SNAK);
+      USBx_INEP(ep->num)->DIEPCTL |= (USB_OTG_DIEPCTL_EPDIS);
+
+      do
+      {
+        if (++count > 10000U)
+        {
+          ret = HAL_ERROR;
+          break;
+        }
+      } while (((USBx_INEP(ep->num)->DIEPCTL) & USB_OTG_DIEPCTL_EPENA) ==  USB_OTG_DIEPCTL_EPENA);
+    }
+  }
+  else /* OUT endpoint */
+  {
+    if (((USBx_OUTEP(ep->num)->DOEPCTL) & USB_OTG_DOEPCTL_EPENA) == USB_OTG_DOEPCTL_EPENA)
+    {
+      USBx_OUTEP(ep->num)->DOEPCTL |= (USB_OTG_DOEPCTL_SNAK);
+      USBx_OUTEP(ep->num)->DOEPCTL |= (USB_OTG_DOEPCTL_EPDIS);
+
+      do
+      {
+        if (++count > 10000U)
+        {
+          ret = HAL_ERROR;
+          break;
+        }
+      } while (((USBx_OUTEP(ep->num)->DOEPCTL) & USB_OTG_DOEPCTL_EPENA) ==  USB_OTG_DOEPCTL_EPENA);
+    }
+  }
+
+  return ret;
+}
+
+
 /**
   * @brief  USB_WritePacket : Writes a packet into the Tx FIFO associated
   *         with the EP/channel
@@ -2467,7 +2521,52 @@ HAL_StatusTypeDef USB_EPClearStall(USB_TypeDef *USBx, USB_EPTypeDef *ep)
 
   return HAL_OK;
 }
-#endif
+
+/**
+   * @brief  USB_EPStoptXfer  Stop transfer on an EP
+   * @param  USBx  usb device instance
+   * @param  ep pointer to endpoint structure
+   * @retval HAL status
+   */
+HAL_StatusTypeDef USB_EPStopXfer(USB_TypeDef *USBx, USB_EPTypeDef *ep)
+{
+  /* IN endpoint */
+  if (ep->is_in == 1U)
+  {
+    if (ep->doublebuffer == 0U)
+    {
+      if (ep->type != EP_TYPE_ISOC)
+      {
+        /* Configure NAK status for the Endpoint */
+        PCD_SET_EP_TX_STATUS(USBx, ep->num, USB_EP_TX_NAK);
+      }
+      else
+      {
+        /* Configure TX Endpoint to disabled state */
+        PCD_SET_EP_TX_STATUS(USBx, ep->num, USB_EP_TX_DIS);
+      }
+    }
+  }
+  else /* OUT endpoint */
+  {
+    if (ep->doublebuffer == 0U)
+    {
+      if (ep->type != EP_TYPE_ISOC)
+      {
+        /* Configure NAK status for the Endpoint */
+        PCD_SET_EP_RX_STATUS(USBx, ep->num, USB_EP_RX_NAK);
+      }
+      else
+      {
+        /* Configure RX Endpoint to disabled state */
+        PCD_SET_EP_RX_STATUS(USBx, ep->num, USB_EP_RX_DIS);
+      }
+    }
+  }
+
+  return HAL_OK;
+}
+#endif /* defined (HAL_PCD_MODULE_ENABLED) */
 
 /**
   * @brief  USB_StopDevice Stop the usb device mode

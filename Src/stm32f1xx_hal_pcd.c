@@ -1048,6 +1048,7 @@ void HAL_PCD_IRQHandler(PCD_HandleTypeDef *hpcd)
           }
           if ((epint & USB_OTG_DIEPINT_EPDISD) == USB_OTG_DIEPINT_EPDISD)
           {
+            (void)USB_FlushTxFifo(USBx, epnum);
             CLEAR_IN_EP_INTR(epnum, USB_OTG_DIEPINT_EPDISD);
           }
           if ((epint & USB_OTG_DIEPINT_TXFE) == USB_OTG_DIEPINT_TXFE)
@@ -1852,6 +1853,32 @@ HAL_StatusTypeDef HAL_PCD_EP_ClrStall(PCD_HandleTypeDef *hpcd, uint8_t ep_addr)
   __HAL_UNLOCK(hpcd);
 
   return HAL_OK;
+}
+
+/**
+   * @brief  Abort an USB EP transaction.
+   * @param  hpcd PCD handle
+   * @param  ep_addr endpoint address
+   * @retval HAL status
+   */
+HAL_StatusTypeDef HAL_PCD_EP_Abort(PCD_HandleTypeDef *hpcd, uint8_t ep_addr)
+{
+  HAL_StatusTypeDef ret;
+  PCD_EPTypeDef *ep;
+
+  if ((0x80U & ep_addr) == 0x80U)
+  {
+    ep = &hpcd->IN_ep[ep_addr & EP_ADDR_MSK];
+  }
+  else
+  {
+    ep = &hpcd->OUT_ep[ep_addr & EP_ADDR_MSK];
+  }
+
+  /* Stop Xfer */
+  ret = USB_EPStopXfer(hpcd->Instance, ep);
+
+  return ret;
 }
 
 /**

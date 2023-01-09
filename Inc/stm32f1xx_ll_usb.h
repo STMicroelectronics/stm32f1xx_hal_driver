@@ -245,6 +245,8 @@ typedef struct
   uint32_t lpm_enable;              /*!< Enable or disable Battery charging.                                    */
 
   uint32_t battery_charging_enable; /*!< Enable or disable Battery charging.                                    */
+
+  uint32_t dma_enable;              /*!< dma_enable state unused, DMA not supported by FS instance              */
 } USB_CfgTypeDef;
 
 typedef struct
@@ -574,6 +576,7 @@ HAL_StatusTypeDef USB_WritePacket(USB_OTG_GlobalTypeDef *USBx, uint8_t *src,
 void             *USB_ReadPacket(USB_OTG_GlobalTypeDef *USBx, uint8_t *dest, uint16_t len);
 HAL_StatusTypeDef USB_EPSetStall(USB_OTG_GlobalTypeDef *USBx, USB_OTG_EPTypeDef *ep);
 HAL_StatusTypeDef USB_EPClearStall(USB_OTG_GlobalTypeDef *USBx, USB_OTG_EPTypeDef *ep);
+HAL_StatusTypeDef USB_EPStopXfer(USB_OTG_GlobalTypeDef *USBx, USB_OTG_EPTypeDef *ep);
 HAL_StatusTypeDef USB_SetDevAddress(USB_OTG_GlobalTypeDef *USBx, uint8_t address);
 HAL_StatusTypeDef USB_DevConnect(USB_OTG_GlobalTypeDef *USBx);
 HAL_StatusTypeDef USB_DevDisconnect(USB_OTG_GlobalTypeDef *USBx);
@@ -625,7 +628,8 @@ HAL_StatusTypeDef USB_DeactivateEndpoint(USB_TypeDef *USBx, USB_EPTypeDef *ep);
 HAL_StatusTypeDef USB_EPStartXfer(USB_TypeDef *USBx, USB_EPTypeDef *ep);
 HAL_StatusTypeDef USB_EPSetStall(USB_TypeDef *USBx, USB_EPTypeDef *ep);
 HAL_StatusTypeDef USB_EPClearStall(USB_TypeDef *USBx, USB_EPTypeDef *ep);
-#endif
+HAL_StatusTypeDef USB_EPStopXfer(USB_TypeDef *USBx, USB_EPTypeDef *ep);
+#endif /* defined (HAL_PCD_MODULE_ENABLED) */
 
 HAL_StatusTypeDef USB_SetDevAddress(USB_TypeDef *USBx, uint8_t address);
 HAL_StatusTypeDef USB_DevConnect(USB_TypeDef *USBx);
