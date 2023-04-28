@@ -764,7 +764,7 @@ HAL_StatusTypeDef HAL_ETH_RegisterCallback(ETH_HandleTypeDef *heth, HAL_ETH_Call
 
 /**
   * @brief  Unregister an ETH Callback
-  *         ETH callabck is redirected to the weak predefined callback
+  *         ETH callback is redirected to the weak predefined callback
   * @param heth eth handle
   * @param CallbackID ID of the callback to be unregistered
   *        This parameter can be one of the following values:

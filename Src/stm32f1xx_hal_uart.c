@@ -84,8 +84,8 @@
     allows the user to configure dynamically the driver callbacks.
 
     [..]
-    Use Function @ref HAL_UART_RegisterCallback() to register a user callback.
-    Function @ref HAL_UART_RegisterCallback() allows to register following callbacks:
+    Use Function HAL_UART_RegisterCallback() to register a user callback.
+    Function HAL_UART_RegisterCallback() allows to register following callbacks:
     (+) TxHalfCpltCallback        : Tx Half Complete Callback.
     (+) TxCpltCallback            : Tx Complete Callback.
     (+) RxHalfCpltCallback        : Rx Half Complete Callback.
@@ -100,9 +100,9 @@
     and a pointer to the user callback function.
 
     [..]
-    Use function @ref HAL_UART_UnRegisterCallback() to reset a callback to the default
+    Use function HAL_UART_UnRegisterCallback() to reset a callback to the default
     weak (surcharged) function.
-    @ref HAL_UART_UnRegisterCallback() takes as parameters the HAL peripheral handle,
+    HAL_UART_UnRegisterCallback() takes as parameters the HAL peripheral handle,
     and the Callback ID.
     This function allows to reset following callbacks:
     (+) TxHalfCpltCallback        : Tx Half Complete Callback.
@@ -118,16 +118,16 @@
 
     [..]
     For specific callback RxEventCallback, use dedicated registration/reset functions:
-    respectively @ref HAL_UART_RegisterRxEventCallback() , @ref HAL_UART_UnRegisterRxEventCallback().
+    respectively HAL_UART_RegisterRxEventCallback() , HAL_UART_UnRegisterRxEventCallback().
 
     [..]
-    By default, after the @ref HAL_UART_Init() and when the state is HAL_UART_STATE_RESET
+    By default, after the HAL_UART_Init() and when the state is HAL_UART_STATE_RESET
     all callbacks are set to the corresponding weak (surcharged) functions:
-    examples @ref HAL_UART_TxCpltCallback(), @ref HAL_UART_RxHalfCpltCallback().
+    examples HAL_UART_TxCpltCallback(), HAL_UART_RxHalfCpltCallback().
     Exception done for MspInit and MspDeInit functions that are respectively
-    reset to the legacy weak (surcharged) functions in the @ref HAL_UART_Init()
-    and @ref HAL_UART_DeInit() only when these callbacks are null (not registered beforehand).
-    If not, MspInit or MspDeInit are not null, the @ref HAL_UART_Init() and @ref HAL_UART_DeInit()
+    reset to the legacy weak (surcharged) functions in the HAL_UART_Init()
+    and HAL_UART_DeInit() only when these callbacks are null (not registered beforehand).
+    If not, MspInit or MspDeInit are not null, the HAL_UART_Init() and HAL_UART_DeInit()
     keep and use the user MspInit/MspDeInit callbacks (registered beforehand).
 
     [..]
@@ -136,8 +136,8 @@
     in HAL_UART_STATE_READY or HAL_UART_STATE_RESET state, thus registered (user)
     MspInit/DeInit callbacks can be used during the Init/DeInit.
     In that case first register the MspInit/MspDeInit user callbacks
-    using @ref HAL_UART_RegisterCallback() before calling @ref HAL_UART_DeInit()
-    or @ref HAL_UART_Init() function.
+    using HAL_UART_RegisterCallback() before calling HAL_UART_DeInit()
+    or HAL_UART_Init() function.
 
     [..]
     When The compilation define USE_HAL_UART_REGISTER_CALLBACKS is set to 0 or
@@ -251,7 +251,6 @@
     |---------|-----------|---------------------------------------|
     |    1    |    1      |    | SB | 8 bit data | PB | STB |     |
     +-------------------------------------------------------------+
-
   ******************************************************************************
   */
 
@@ -744,6 +743,8 @@ __weak void HAL_UART_MspDeInit(UART_HandleTypeDef *huart)
 /**
   * @brief  Register a User UART Callback
   *         To be used instead of the weak predefined callback
+  * @note   The HAL_UART_RegisterCallback() may be called before HAL_UART_Init(), HAL_HalfDuplex_Init(), HAL_LIN_Init(),
+  *         HAL_MultiProcessor_Init() to register callbacks for HAL_UART_MSPINIT_CB_ID and HAL_UART_MSPDEINIT_CB_ID
   * @param  huart uart handle
   * @param  CallbackID ID of the callback to be registered
   *         This parameter can be one of the following values:
@@ -772,8 +773,6 @@ HAL_StatusTypeDef HAL_UART_RegisterCallback(UART_HandleTypeDef *huart, HAL_UART_
 
     return HAL_ERROR;
   }
-  /* Process locked */
-  __HAL_LOCK(huart);
 
   if (huart->gState == HAL_UART_STATE_READY)
   {
@@ -858,15 +857,15 @@ HAL_StatusTypeDef HAL_UART_RegisterCallback(UART_HandleTypeDef *huart, HAL_UART_
     status =  HAL_ERROR;
   }
 
-  /* Release Lock */
-  __HAL_UNLOCK(huart);
-
   return status;
 }
 
 /**
   * @brief  Unregister an UART Callback
   *         UART callaback is redirected to the weak predefined callback
+  * @note   The HAL_UART_UnRegisterCallback() may be called before HAL_UART_Init(), HAL_HalfDuplex_Init(),
+  *         HAL_LIN_Init(), HAL_MultiProcessor_Init() to un-register callbacks for HAL_UART_MSPINIT_CB_ID
+  *         and HAL_UART_MSPDEINIT_CB_ID
   * @param  huart uart handle
   * @param  CallbackID ID of the callback to be unregistered
   *         This parameter can be one of the following values:
@@ -885,9 +884,6 @@ HAL_StatusTypeDef HAL_UART_RegisterCallback(UART_HandleTypeDef *huart, HAL_UART_
 HAL_StatusTypeDef HAL_UART_UnRegisterCallback(UART_HandleTypeDef *huart, HAL_UART_CallbackIDTypeDef CallbackID)
 {
   HAL_StatusTypeDef status = HAL_OK;
-
-  /* Process locked */
-  __HAL_LOCK(huart);
 
   if (HAL_UART_STATE_READY == huart->gState)
   {
@@ -971,9 +967,6 @@ HAL_StatusTypeDef HAL_UART_UnRegisterCallback(UART_HandleTypeDef *huart, HAL_UAR
     /* Return error status */
     status =  HAL_ERROR;
   }
-
-  /* Release Lock */
-  __HAL_UNLOCK(huart);
 
   return status;
 }
@@ -1319,7 +1312,7 @@ HAL_StatusTypeDef HAL_UART_Transmit_IT(UART_HandleTypeDef *huart, const uint8_t 
       return HAL_ERROR;
     }
 
-    huart->pTxBuffPtr = (uint8_t *) pData;
+    huart->pTxBuffPtr = pData;
     huart->TxXferSize = Size;
     huart->TxXferCount = Size;
 
@@ -1382,7 +1375,7 @@ HAL_StatusTypeDef HAL_UART_Receive_IT(UART_HandleTypeDef *huart, uint8_t *pData,
   */
 HAL_StatusTypeDef HAL_UART_Transmit_DMA(UART_HandleTypeDef *huart, const uint8_t *pData, uint16_t Size)
 {
-  uint32_t *tmp;
+  const uint32_t *tmp;
 
   /* Check that a Tx process is not already ongoing */
   if (huart->gState == HAL_UART_STATE_READY)
@@ -1392,7 +1385,7 @@ HAL_StatusTypeDef HAL_UART_Transmit_DMA(UART_HandleTypeDef *huart, const uint8_t
       return HAL_ERROR;
     }
 
-    huart->pTxBuffPtr = (uint8_t *) pData;
+    huart->pTxBuffPtr = pData;
     huart->TxXferSize = Size;
     huart->TxXferCount = Size;
 
@@ -1412,8 +1405,8 @@ HAL_StatusTypeDef HAL_UART_Transmit_DMA(UART_HandleTypeDef *huart, const uint8_t
     huart->hdmatx->XferAbortCallback = NULL;
 
     /* Enable the UART transmit DMA channel */
-    tmp = (uint32_t *)&pData;
-    HAL_DMA_Start_IT(huart->hdmatx, *(uint32_t *)tmp, (uint32_t)&huart->Instance->DR, Size);
+    tmp = (const uint32_t *)&pData;
+    HAL_DMA_Start_IT(huart->hdmatx, *(const uint32_t *)tmp, (uint32_t)&huart->Instance->DR, Size);
 
     /* Clear the TC flag in the SR register by writing 0 to it */
     __HAL_UART_CLEAR_FLAG(huart, UART_FLAG_TC);
@@ -3520,14 +3513,14 @@ static void UART_DMARxOnlyAbortCallback(DMA_HandleTypeDef *hdma)
   */
 static HAL_StatusTypeDef UART_Transmit_IT(UART_HandleTypeDef *huart)
 {
-  uint16_t *tmp;
+  const uint16_t *tmp;
 
   /* Check that a Tx process is ongoing */
   if (huart->gState == HAL_UART_STATE_BUSY_TX)
   {
     if ((huart->Init.WordLength == UART_WORDLENGTH_9B) && (huart->Init.Parity == UART_PARITY_NONE))
     {
-      tmp = (uint16_t *) huart->pTxBuffPtr;
+      tmp = (const uint16_t *) huart->pTxBuffPtr;
       huart->Instance->DR = (uint16_t)(*tmp & (uint16_t)0x01FF);
       huart->pTxBuffPtr += 2U;
     }
@@ -3760,3 +3753,4 @@ static void UART_SetConfig(UART_HandleTypeDef *huart)
 /**
   * @}
   */
+

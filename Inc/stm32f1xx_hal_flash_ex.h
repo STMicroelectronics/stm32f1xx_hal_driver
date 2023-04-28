@@ -9,10 +9,9 @@
   * Copyright (c) 2016 STMicroelectronics.
   * All rights reserved.
   *
-  * This software is licensed under terms that can be found in the LICENSE file
-  * in the root directory of this software component.
+  * This software is licensed under terms that can be found in the LICENSE file in
+  * the root directory of this software component.
   * If no LICENSE file comes with this software, it is provided AS-IS.
-  *
   ******************************************************************************
   */
 
@@ -781,3 +780,4 @@ uint32_t           HAL_FLASHEx_OBGetUserData(uint32_t DATAAdress);
 #endif
 
 #endif /* __STM32F1xx_HAL_FLASH_EX_H */
+

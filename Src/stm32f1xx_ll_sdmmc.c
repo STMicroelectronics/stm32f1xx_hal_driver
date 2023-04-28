@@ -11,6 +11,17 @@
   *           + Peripheral Control functions 
   *           + Peripheral State functions
   *         
+  ******************************************************************************
+  * @attention
+  *
+  * Copyright (c) 2016 STMicroelectronics.
+  * All rights reserved.
+  *
+  * This software is licensed under terms that can be found in the LICENSE file
+  * in the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
+  *
+  ******************************************************************************
   @verbatim
   ==============================================================================
                        ##### SDMMC peripheral features #####
@@ -142,17 +153,7 @@
   
   @endverbatim
   ******************************************************************************
-  * @attention
-  *
-  * Copyright (c) 2018 STMicroelectronics.
-  * All rights reserved.
-  *
-  * This software is licensed under terms that can be found in the LICENSE file
-  * in the root directory of this software component.
-  * If no LICENSE file comes with this software, it is provided AS-IS.
-  *
-  ******************************************************************************
-  */
+  */ 
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f1xx_hal.h"
@@ -305,10 +306,6 @@ HAL_StatusTypeDef SDIO_PowerState_ON(SDIO_TypeDef *SDIOx)
   /* Set power state to ON */ 
   SDIOx->POWER = SDIO_POWER_PWRCTRL;
 
-  /* 1ms: required power up waiting time before starting the SD initialization
-  sequence */
-  HAL_Delay(2);
-  
   return HAL_OK;
 }
 

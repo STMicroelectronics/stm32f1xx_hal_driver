@@ -8,17 +8,6 @@
   *           + Initialization and de-initialization functions
   *           + Peripheral Control functions
   *
-  ******************************************************************************
-  * @attention
-  *
-  * Copyright (c) 2016 STMicroelectronics.
-  * All rights reserved.
-  *
-  * This software is licensed under terms that can be found in the LICENSE file
-  * in the root directory of this software component.
-  * If no LICENSE file comes with this software, it is provided AS-IS.
-  *
-  ******************************************************************************
   @verbatim
   ==============================================================================
                       ##### RCC specific features #####
@@ -56,6 +45,15 @@
           inserted in each __HAL_RCC_PPP_CLK_ENABLE() macro.
 
   @endverbatim
+  ******************************************************************************
+  * @attention
+  *
+  * Copyright (c) 2016 STMicroelectronics.
+  * All rights reserved.
+  *
+  * This software is licensed under terms that can be found in the LICENSE file in
+  * the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
   ******************************************************************************
   */
 
@@ -155,7 +153,7 @@ static void RCC_Delay(uint32_t mdelay);
           on AHB bus (DMA, GPIO...). APB1 (PCLK1) and APB2 (PCLK2) clocks are derived
           from AHB clock through configurable prescalers and used to clock
           the peripherals mapped on these buses. You can use
-          "@ref HAL_RCC_GetSysClockFreq()" function to retrieve the frequencies of these clocks.
+          "HAL_RCC_GetSysClockFreq()" function to retrieve the frequencies of these clocks.
 
       -@- All the peripheral clocks are derived from the System clock (SYSCLK) except:
           (+@) RTC: RTC clock can be derived either from the LSI, LSE or HSE clock
@@ -1399,3 +1397,4 @@ __weak void HAL_RCC_CSSCallback(void)
 /**
   * @}
   */
+

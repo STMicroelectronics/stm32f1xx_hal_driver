@@ -5,7 +5,6 @@
   * @brief   HAL BSP module.
   *          This file template is located in the HAL folder and should be copied
   *          to the user folder.
-  *
   ******************************************************************************
   * @attention
   *
@@ -89,3 +88,5 @@ void HAL_PPP_MspDeInit(void)
 /**
   * @}
   */
+
+

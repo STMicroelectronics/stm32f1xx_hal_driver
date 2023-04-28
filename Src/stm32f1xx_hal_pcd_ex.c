@@ -157,6 +157,7 @@ HAL_StatusTypeDef  HAL_PCDEx_PMAConfig(PCD_HandleTypeDef *hpcd, uint16_t ep_addr
     /* Configure the PMA */
     ep->pmaadress = (uint16_t)pmaadress;
   }
+#if (USE_USB_DOUBLE_BUFFER == 1U)
   else /* USB_DBL_BUF */
   {
     /* Double Buffer Endpoint */
@@ -165,6 +166,7 @@ HAL_StatusTypeDef  HAL_PCDEx_PMAConfig(PCD_HandleTypeDef *hpcd, uint16_t ep_addr
     ep->pmaaddr0 = (uint16_t)(pmaadress & 0xFFFFU);
     ep->pmaaddr1 = (uint16_t)((pmaadress & 0xFFFF0000U) >> 16);
   }
+#endif /* (USE_USB_DOUBLE_BUFFER == 1U) */
 
   return HAL_OK;
 }

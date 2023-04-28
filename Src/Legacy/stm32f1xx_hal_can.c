@@ -12,7 +12,7 @@
   ******************************************************************************
   * @attention
   *
-  * Copyright (c) 2017 STMicroelectronics.
+  * Copyright (c) 2016 STMicroelectronics.
   * All rights reserved.
   *
   * This software is licensed under terms that can be found in the LICENSE file
@@ -88,6 +88,7 @@
       (@) You can refer to the CAN Legacy HAL driver header file for more useful macros
                 
   @endverbatim
+           
   ******************************************************************************
   */
 

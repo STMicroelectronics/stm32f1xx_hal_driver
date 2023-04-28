@@ -92,7 +92,7 @@ extern "C" {
 #define IS_FSMC_NORSRAM_EXTENDED_DEVICE(__INSTANCE__) ((__INSTANCE__) == FSMC_NORSRAM_EXTENDED_DEVICE)
 
 #endif /* FSMC_BANK1 */
-#if defined(FSMC_BANK3)
+#if  defined(FSMC_BANK3)
 
 #define IS_FSMC_NAND_BANK(__BANK__) ((__BANK__) == FSMC_NAND_BANK3)
 #define IS_FSMC_WAIT_FEATURE(__FEATURE__) (((__FEATURE__) == FSMC_NAND_PCC_WAIT_FEATURE_DISABLE) || \
@@ -287,7 +287,7 @@ typedef struct
                                         delay between ALE low and RE low.
                                         This parameter can be a number between Min_Data = 0 and Max_Data = 255 */
 } FSMC_NAND_InitTypeDef;
-#endif
+#endif /* FSMC_BANK3 */
 
 #if defined(FSMC_BANK3) || defined(FSMC_BANK4)
 /**
@@ -339,7 +339,7 @@ typedef struct
                                         delay between ALE low and RE low.
                                         This parameter can be a number between Min_Data = 0 and Max_Data = 255 */
 }FSMC_PCCARD_InitTypeDef;
-#endif
+#endif /* FSMC_BANK4 */
 
 /**
   * @}
@@ -550,7 +550,7 @@ typedef struct
   */
 #if defined(FSMC_BANK4)
 #define FSMC_PCR_MEMORY_TYPE_PCCARD              (0x00000000U)
-#endif
+#endif /* FSMC_BANK4 */
 #define FSMC_PCR_MEMORY_TYPE_NAND                (0x00000008U)
 /**
   * @}
@@ -590,7 +590,7 @@ typedef struct
 /**
   * @}
   */
-#endif /* FSMC_BANK3 */
+#endif /* FSMC_BANK3 || FSMC_Bank4 */
 
 
 /** @defgroup FSMC_LL_Interrupt_definition FSMC Low Layer Interrupt definition
@@ -600,7 +600,7 @@ typedef struct
 #define FSMC_IT_RISING_EDGE                      (0x00000008U)
 #define FSMC_IT_LEVEL                            (0x00000010U)
 #define FSMC_IT_FALLING_EDGE                     (0x00000020U)
-#endif /* FSMC_BANK3 */
+#endif /* FSMC_BANK3 || FSMC_Bank4 */
 /**
   * @}
   */
@@ -613,7 +613,7 @@ typedef struct
 #define FSMC_FLAG_LEVEL                          (0x00000002U)
 #define FSMC_FLAG_FALLING_EDGE                   (0x00000004U)
 #define FSMC_FLAG_FEMPT                          (0x00000040U)
-#endif /* FSMC_BANK3 */
+#endif /* FSMC_BANK3 || FSMC_Bank4 */
 /**
   * @}
   */
@@ -686,7 +686,7 @@ typedef struct
 /**
   * @}
   */
-#endif
+#endif /* FSMC_BANK3 */
 
 #if defined(FSMC_BANK4)
 /** @defgroup FSMC_LL_PCCARD_Macros FMC PCCARD Macros

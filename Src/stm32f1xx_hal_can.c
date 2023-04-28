@@ -142,9 +142,9 @@
 
   The compilation define  USE_HAL_CAN_REGISTER_CALLBACKS when set to 1
   allows the user to configure dynamically the driver callbacks.
-  Use Function @ref HAL_CAN_RegisterCallback() to register an interrupt callback.
+  Use Function HAL_CAN_RegisterCallback() to register an interrupt callback.
 
-  Function @ref HAL_CAN_RegisterCallback() allows to register following callbacks:
+  Function HAL_CAN_RegisterCallback() allows to register following callbacks:
     (+) TxMailbox0CompleteCallback   : Tx Mailbox 0 Complete Callback.
     (+) TxMailbox1CompleteCallback   : Tx Mailbox 1 Complete Callback.
     (+) TxMailbox2CompleteCallback   : Tx Mailbox 2 Complete Callback.
@@ -163,9 +163,9 @@
   This function takes as parameters the HAL peripheral handle, the Callback ID
   and a pointer to the user callback function.
 
-  Use function @ref HAL_CAN_UnRegisterCallback() to reset a callback to the default
+  Use function HAL_CAN_UnRegisterCallback() to reset a callback to the default
   weak function.
-  @ref HAL_CAN_UnRegisterCallback takes as parameters the HAL peripheral handle,
+  HAL_CAN_UnRegisterCallback takes as parameters the HAL peripheral handle,
   and the Callback ID.
   This function allows to reset following callbacks:
     (+) TxMailbox0CompleteCallback   : Tx Mailbox 0 Complete Callback.
@@ -184,13 +184,13 @@
     (+) MspInitCallback              : CAN MspInit.
     (+) MspDeInitCallback            : CAN MspDeInit.
 
-  By default, after the @ref HAL_CAN_Init() and when the state is HAL_CAN_STATE_RESET,
+  By default, after the HAL_CAN_Init() and when the state is HAL_CAN_STATE_RESET,
   all callbacks are set to the corresponding weak functions:
-  example @ref HAL_CAN_ErrorCallback().
+  example HAL_CAN_ErrorCallback().
   Exception done for MspInit and MspDeInit functions that are
-  reset to the legacy weak function in the @ref HAL_CAN_Init()/ @ref HAL_CAN_DeInit() only when
+  reset to the legacy weak function in the HAL_CAN_Init()/ HAL_CAN_DeInit() only when
   these callbacks are null (not registered beforehand).
-  if not, MspInit or MspDeInit are not null, the @ref HAL_CAN_Init()/ @ref HAL_CAN_DeInit()
+  if not, MspInit or MspDeInit are not null, the HAL_CAN_Init()/ HAL_CAN_DeInit()
   keep and use the user MspInit/MspDeInit callbacks (registered beforehand)
 
   Callbacks can be registered/unregistered in HAL_CAN_STATE_READY state only.
@@ -198,8 +198,8 @@
   in HAL_CAN_STATE_READY or HAL_CAN_STATE_RESET state,
   thus registered (user) MspInit/DeInit callbacks can be used during the Init/DeInit.
   In that case first register the MspInit/MspDeInit user callbacks
-  using @ref HAL_CAN_RegisterCallback() before calling @ref HAL_CAN_DeInit()
-  or @ref HAL_CAN_Init() function.
+  using HAL_CAN_RegisterCallback() before calling HAL_CAN_DeInit()
+  or HAL_CAN_Init() function.
 
   When The compilation define USE_HAL_CAN_REGISTER_CALLBACKS is set to 0 or
   not defined, the callback registration feature is not available and all callbacks
@@ -676,7 +676,7 @@ HAL_StatusTypeDef HAL_CAN_RegisterCallback(CAN_HandleTypeDef *hcan, HAL_CAN_Call
 
 /**
   * @brief  Unregister a CAN CallBack.
-  *         CAN callabck is redirected to the weak predefined callback
+  *         CAN callback is redirected to the weak predefined callback
   * @param  hcan pointer to a CAN_HandleTypeDef structure that contains
   *         the configuration information for CAN module
   * @param  CallbackID ID of the callback to be unregistered
@@ -1252,15 +1252,6 @@ HAL_StatusTypeDef HAL_CAN_AddTxMessage(CAN_HandleTypeDef *hcan, const CAN_TxHead
       /* Select an empty transmit mailbox */
       transmitmailbox = (tsr & CAN_TSR_CODE) >> CAN_TSR_CODE_Pos;
 
-      /* Check transmit mailbox value */
-      if (transmitmailbox > 2U)
-      {
-        /* Update error code */
-        hcan->ErrorCode |= HAL_CAN_ERROR_INTERNAL;
-
-        return HAL_ERROR;
-      }
-
       /* Store the Tx mailbox */
       *pTxMailbox = (uint32_t)1 << transmitmailbox;
 
@@ -1533,7 +1524,15 @@ HAL_StatusTypeDef HAL_CAN_GetRxMessage(CAN_HandleTypeDef *hcan, uint32_t RxFifo,
                         hcan->Instance->sFIFOMailBox[RxFifo].RIR) >> CAN_RI0R_EXID_Pos;
     }
     pHeader->RTR = (CAN_RI0R_RTR & hcan->Instance->sFIFOMailBox[RxFifo].RIR);
-    pHeader->DLC = (CAN_RDT0R_DLC & hcan->Instance->sFIFOMailBox[RxFifo].RDTR) >> CAN_RDT0R_DLC_Pos;
+    if (((CAN_RDT0R_DLC & hcan->Instance->sFIFOMailBox[RxFifo].RDTR) >> CAN_RDT0R_DLC_Pos) >= 8U)
+    {
+      /* Truncate DLC to 8 if received field is over range */
+      pHeader->DLC = 8U;
+    }
+    else
+    {
+      pHeader->DLC = (CAN_RDT0R_DLC & hcan->Instance->sFIFOMailBox[RxFifo].RDTR) >> CAN_RDT0R_DLC_Pos;
+    }
     pHeader->FilterMatchIndex = (CAN_RDT0R_FMI & hcan->Instance->sFIFOMailBox[RxFifo].RDTR) >> CAN_RDT0R_FMI_Pos;
     pHeader->Timestamp = (CAN_RDT0R_TIME & hcan->Instance->sFIFOMailBox[RxFifo].RDTR) >> CAN_RDT0R_TIME_Pos;
 

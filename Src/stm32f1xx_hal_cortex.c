@@ -8,17 +8,6 @@
   *           + Initialization and de-initialization functions
   *           + Peripheral Control functions 
   *
-  ******************************************************************************
-  * @attention
-  *
-  * Copyright (c) 2017 STMicroelectronics.
-  * All rights reserved.
-  *
-  * This software is licensed under terms that can be found in the LICENSE file
-  * in the root directory of this software component.
-  * If no LICENSE file comes with this software, it is provided AS-IS.
-  *
-  ******************************************************************************
   @verbatim  
   ==============================================================================
                         ##### How to use this driver #####
@@ -76,6 +65,16 @@
        (++) Reload Value should not exceed 0xFFFFFF
    
   @endverbatim
+  ******************************************************************************
+  * @attention
+  *
+  * Copyright (c) 2017 STMicroelectronics.
+  * All rights reserved.
+  *
+  * This software is licensed under terms that can be found in the LICENSE file in
+  * the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
+  *
   ******************************************************************************
   */
 
@@ -501,3 +500,4 @@ __weak void HAL_SYSTICK_Callback(void)
 /**
   * @}
   */
+

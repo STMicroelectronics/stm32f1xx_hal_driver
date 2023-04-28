@@ -26,7 +26,7 @@
 #include "stm32_assert.h"
 #else
 #define assert_param(expr) ((void)0U)
-#endif
+#endif /* USE_FULL_ASSERT */
 
 /** @addtogroup STM32F1xx_LL_Driver
   * @{
@@ -525,3 +525,4 @@ void LL_I2S_ConfigPrescaler(SPI_TypeDef *SPIx, uint32_t PrescalerLinear, uint32_
   */
 
 #endif /* USE_FULL_LL_DRIVER */
+

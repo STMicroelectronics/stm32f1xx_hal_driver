@@ -1933,3 +1933,4 @@ void        LL_I2S_ConfigPrescaler(SPI_TypeDef *SPIx, uint32_t PrescalerLinear, 
 #endif
 
 #endif /* STM32F1xx_LL_SPI_H */
+

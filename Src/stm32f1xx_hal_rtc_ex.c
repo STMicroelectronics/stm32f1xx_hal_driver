@@ -303,7 +303,7 @@ HAL_StatusTypeDef HAL_RTCEx_PollForTamper1Event(RTC_HandleTypeDef *hrtc, uint32_
                  ##### RTC Second functions #####
  ===============================================================================
 
- [..] This section provides functions implementing second interupt handlers
+ [..] This section provides functions implementing second interrupt handlers
 
 @endverbatim
   * @{
@@ -328,7 +328,7 @@ HAL_StatusTypeDef HAL_RTCEx_SetSecond_IT(RTC_HandleTypeDef *hrtc)
 
   hrtc->State = HAL_RTC_STATE_BUSY;
 
-  /* Enable Second interuption */
+  /* Enable Second interruption */
   __HAL_RTC_SECOND_ENABLE_IT(hrtc, RTC_IT_SEC);
 
   hrtc->State = HAL_RTC_STATE_READY;
@@ -358,7 +358,7 @@ HAL_StatusTypeDef HAL_RTCEx_DeactivateSecond(RTC_HandleTypeDef *hrtc)
 
   hrtc->State = HAL_RTC_STATE_BUSY;
 
-  /* Deactivate Second interuption*/
+  /* Deactivate Second interruption*/
   __HAL_RTC_SECOND_DISABLE_IT(hrtc, RTC_IT_SEC);
 
   hrtc->State = HAL_RTC_STATE_READY;

@@ -889,3 +889,4 @@ void HAL_GPIOEx_DisableEventout(void);
 #endif
 
 #endif /* STM32F1xx_HAL_GPIO_EX_H */
+
