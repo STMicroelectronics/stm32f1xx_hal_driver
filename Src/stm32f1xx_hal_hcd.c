@@ -106,7 +106,9 @@ static void HCD_Port_IRQHandler(HCD_HandleTypeDef *hhcd);
   */
 HAL_StatusTypeDef HAL_HCD_Init(HCD_HandleTypeDef *hhcd)
 {
-  USB_OTG_GlobalTypeDef *USBx;
+#if defined (USB_OTG_FS)
+  const USB_OTG_GlobalTypeDef *USBx;
+#endif /* defined (USB_OTG_FS) */
 
   /* Check the HCD handle allocation */
   if (hhcd == NULL)
@@ -117,7 +119,9 @@ HAL_StatusTypeDef HAL_HCD_Init(HCD_HandleTypeDef *hhcd)
   /* Check the parameters */
   assert_param(IS_HCD_ALL_INSTANCE(hhcd->Instance));
 
+#if defined (USB_OTG_FS)
   USBx = hhcd->Instance;
+#endif /* defined (USB_OTG_FS) */
 
   if (hhcd->State == HAL_HCD_STATE_RESET)
   {
@@ -147,11 +151,13 @@ HAL_StatusTypeDef HAL_HCD_Init(HCD_HandleTypeDef *hhcd)
 
   hhcd->State = HAL_HCD_STATE_BUSY;
 
+#if defined (USB_OTG_FS)
   /* Disable DMA mode for FS instance */
-  if ((USBx->CID & (0x1U << 8)) == 0U)
+  if (USBx == USB_OTG_FS)
   {
     hhcd->Init.dma_enable = 0U;
   }
+#endif /* defined (USB_OTG_FS) */
 
   /* Disable the Interrupts */
   __HAL_HCD_DISABLE(hhcd);

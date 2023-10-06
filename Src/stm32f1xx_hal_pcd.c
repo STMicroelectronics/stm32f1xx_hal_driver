@@ -183,7 +183,7 @@ HAL_StatusTypeDef HAL_PCD_Init(PCD_HandleTypeDef *hpcd)
 
 #if defined (USB_OTG_FS)
   /* Disable DMA mode for FS instance */
-  if ((USBx->CID & (0x1U << 8)) == 0U)
+  if (USBx == USB_OTG_FS)
   {
     hpcd->Init.dma_enable = 0U;
   }
