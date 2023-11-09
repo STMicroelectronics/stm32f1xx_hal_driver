@@ -102,7 +102,7 @@ static HAL_StatusTypeDef FLASH_OB_RDP_LevelConfig(uint8_t ReadProtectLevel);
 static HAL_StatusTypeDef FLASH_OB_UserConfig(uint8_t UserConfig);
 static HAL_StatusTypeDef FLASH_OB_ProgramData(uint32_t Address, uint8_t Data);
 static uint32_t          FLASH_OB_GetWRP(void);
-static uint32_t          FLASH_OB_GetRDP(void);
+static uint8_t           FLASH_OB_GetRDP(void);
 static uint8_t           FLASH_OB_GetUser(void);
 
 /**
@@ -1029,9 +1029,9 @@ static uint32_t FLASH_OB_GetWRP(void)
   *            @arg @ref OB_RDP_LEVEL_0 No protection
   *            @arg @ref OB_RDP_LEVEL_1 Read protection of the memory
   */
-static uint32_t FLASH_OB_GetRDP(void)
+static uint8_t FLASH_OB_GetRDP(void)
 {
-  uint32_t readstatus = OB_RDP_LEVEL_0;
+  uint8_t readstatus = OB_RDP_LEVEL_0;
   uint32_t tmp_reg = 0U;
   
   /* Read RDP level bits */
