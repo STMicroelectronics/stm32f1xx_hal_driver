@@ -1176,7 +1176,7 @@ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, const uint8_t *pD
       {
         huart->gState = HAL_UART_STATE_READY;
 
-		return HAL_TIMEOUT;
+        return HAL_TIMEOUT;
       }
       if (pdata8bits == NULL)
       {
@@ -1195,7 +1195,7 @@ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, const uint8_t *pD
     {
       huart->gState = HAL_UART_STATE_READY;
 
-	  return HAL_TIMEOUT;
+      return HAL_TIMEOUT;
     }
 
     /* At end of Tx process, restore huart->gState to Ready */
@@ -1262,9 +1262,9 @@ HAL_StatusTypeDef HAL_UART_Receive(UART_HandleTypeDef *huart, uint8_t *pData, ui
     {
       if (UART_WaitOnFlagUntilTimeout(huart, UART_FLAG_RXNE, RESET, tickstart, Timeout) != HAL_OK)
       {
-		huart->RxState = HAL_UART_STATE_READY;
+        huart->RxState = HAL_UART_STATE_READY;
 
-		return HAL_TIMEOUT;
+        return HAL_TIMEOUT;
       }
       if (pdata8bits == NULL)
       {
@@ -3200,7 +3200,7 @@ static HAL_StatusTypeDef UART_WaitOnFlagUntilTimeout(UART_HandleTypeDef *huart, 
         return HAL_TIMEOUT;
       }
 
-      if (READ_BIT(huart->Instance->CR1, USART_CR1_RE) != 0U)
+      if ((READ_BIT(huart->Instance->CR1, USART_CR1_RE) != 0U) && (Flag != UART_FLAG_TXE) && (Flag != UART_FLAG_TC))
       {
         if (__HAL_UART_GET_FLAG(huart, UART_FLAG_ORE) == SET)
         {
