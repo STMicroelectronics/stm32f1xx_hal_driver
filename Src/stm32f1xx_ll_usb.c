@@ -383,7 +383,7 @@ HAL_StatusTypeDef USB_FlushTxFifo(USB_OTG_GlobalTypeDef *USBx, uint32_t num)
   {
     count++;
 
-    if (count > 200000U)
+    if (count > HAL_USB_TIMEOUT)
     {
       return HAL_TIMEOUT;
     }
@@ -397,7 +397,7 @@ HAL_StatusTypeDef USB_FlushTxFifo(USB_OTG_GlobalTypeDef *USBx, uint32_t num)
   {
     count++;
 
-    if (count > 200000U)
+    if (count > HAL_USB_TIMEOUT)
     {
       return HAL_TIMEOUT;
     }
@@ -420,7 +420,7 @@ HAL_StatusTypeDef USB_FlushRxFifo(USB_OTG_GlobalTypeDef *USBx)
   {
     count++;
 
-    if (count > 200000U)
+    if (count > HAL_USB_TIMEOUT)
     {
       return HAL_TIMEOUT;
     }
@@ -434,7 +434,7 @@ HAL_StatusTypeDef USB_FlushRxFifo(USB_OTG_GlobalTypeDef *USBx)
   {
     count++;
 
-    if (count > 200000U)
+    if (count > HAL_USB_TIMEOUT)
     {
       return HAL_TIMEOUT;
     }
@@ -1254,7 +1254,7 @@ static HAL_StatusTypeDef USB_CoreReset(USB_OTG_GlobalTypeDef *USBx)
   {
     count++;
 
-    if (count > 200000U)
+    if (count > HAL_USB_TIMEOUT)
     {
       return HAL_TIMEOUT;
     }
@@ -1268,7 +1268,7 @@ static HAL_StatusTypeDef USB_CoreReset(USB_OTG_GlobalTypeDef *USBx)
   {
     count++;
 
-    if (count > 200000U)
+    if (count > HAL_USB_TIMEOUT)
     {
       return HAL_TIMEOUT;
     }

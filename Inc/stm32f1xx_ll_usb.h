@@ -37,6 +37,9 @@ extern "C" {
   */
 
 /* Exported types ------------------------------------------------------------*/
+#ifndef HAL_USB_TIMEOUT
+#define HAL_USB_TIMEOUT                                       0xF000000U
+#endif /* define HAL_USB_TIMEOUT */
 
 /**
   * @brief  USB Mode definition
