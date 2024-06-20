@@ -2037,6 +2037,7 @@ HAL_StatusTypeDef HAL_NAND_RegisterCallback(NAND_HandleTypeDef *hnand, HAL_NAND_
     status =  HAL_ERROR;
   }
 
+  return status;
 }
 
 /**
@@ -2095,6 +2096,7 @@ HAL_StatusTypeDef HAL_NAND_UnRegisterCallback(NAND_HandleTypeDef *hnand, HAL_NAN
     status =  HAL_ERROR;
   }
 
+  return status;
 }
 #endif /* USE_HAL_NAND_REGISTER_CALLBACKS */
 
