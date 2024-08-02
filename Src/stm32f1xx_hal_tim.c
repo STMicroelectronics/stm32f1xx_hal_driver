@@ -3830,7 +3830,7 @@ void HAL_TIM_IRQHandler(TIM_HandleTypeDef *htim)
     if ((itsource & (TIM_IT_CC1)) == (TIM_IT_CC1))
     {
       {
-        __HAL_TIM_CLEAR_IT(htim, TIM_IT_CC1);
+        __HAL_TIM_CLEAR_FLAG(htim, TIM_FLAG_CC1);
         htim->Channel = HAL_TIM_ACTIVE_CHANNEL_1;
 
         /* Input capture event */
@@ -3862,7 +3862,7 @@ void HAL_TIM_IRQHandler(TIM_HandleTypeDef *htim)
   {
     if ((itsource & (TIM_IT_CC2)) == (TIM_IT_CC2))
     {
-      __HAL_TIM_CLEAR_IT(htim, TIM_IT_CC2);
+      __HAL_TIM_CLEAR_FLAG(htim, TIM_FLAG_CC2);
       htim->Channel = HAL_TIM_ACTIVE_CHANNEL_2;
       /* Input capture event */
       if ((htim->Instance->CCMR1 & TIM_CCMR1_CC2S) != 0x00U)
@@ -3892,7 +3892,7 @@ void HAL_TIM_IRQHandler(TIM_HandleTypeDef *htim)
   {
     if ((itsource & (TIM_IT_CC3)) == (TIM_IT_CC3))
     {
-      __HAL_TIM_CLEAR_IT(htim, TIM_IT_CC3);
+      __HAL_TIM_CLEAR_FLAG(htim, TIM_FLAG_CC3);
       htim->Channel = HAL_TIM_ACTIVE_CHANNEL_3;
       /* Input capture event */
       if ((htim->Instance->CCMR2 & TIM_CCMR2_CC3S) != 0x00U)
@@ -3922,7 +3922,7 @@ void HAL_TIM_IRQHandler(TIM_HandleTypeDef *htim)
   {
     if ((itsource & (TIM_IT_CC4)) == (TIM_IT_CC4))
     {
-      __HAL_TIM_CLEAR_IT(htim, TIM_IT_CC4);
+      __HAL_TIM_CLEAR_FLAG(htim, TIM_FLAG_CC4);
       htim->Channel = HAL_TIM_ACTIVE_CHANNEL_4;
       /* Input capture event */
       if ((htim->Instance->CCMR2 & TIM_CCMR2_CC4S) != 0x00U)
@@ -3952,7 +3952,7 @@ void HAL_TIM_IRQHandler(TIM_HandleTypeDef *htim)
   {
     if ((itsource & (TIM_IT_UPDATE)) == (TIM_IT_UPDATE))
     {
-      __HAL_TIM_CLEAR_IT(htim, TIM_IT_UPDATE);
+      __HAL_TIM_CLEAR_FLAG(htim, TIM_FLAG_UPDATE);
 #if (USE_HAL_TIM_REGISTER_CALLBACKS == 1)
       htim->PeriodElapsedCallback(htim);
 #else
@@ -3965,7 +3965,7 @@ void HAL_TIM_IRQHandler(TIM_HandleTypeDef *htim)
   {
     if ((itsource & (TIM_IT_BREAK)) == (TIM_IT_BREAK))
     {
-      __HAL_TIM_CLEAR_IT(htim, TIM_IT_BREAK);
+      __HAL_TIM_CLEAR_FLAG(htim, TIM_FLAG_BREAK);
 #if (USE_HAL_TIM_REGISTER_CALLBACKS == 1)
       htim->BreakCallback(htim);
 #else
@@ -3978,7 +3978,7 @@ void HAL_TIM_IRQHandler(TIM_HandleTypeDef *htim)
   {
     if ((itsource & (TIM_IT_TRIGGER)) == (TIM_IT_TRIGGER))
     {
-      __HAL_TIM_CLEAR_IT(htim, TIM_IT_TRIGGER);
+      __HAL_TIM_CLEAR_FLAG(htim, TIM_FLAG_TRIGGER);
 #if (USE_HAL_TIM_REGISTER_CALLBACKS == 1)
       htim->TriggerCallback(htim);
 #else
@@ -3991,7 +3991,7 @@ void HAL_TIM_IRQHandler(TIM_HandleTypeDef *htim)
   {
     if ((itsource & (TIM_IT_COM)) == (TIM_IT_COM))
     {
-      __HAL_TIM_CLEAR_IT(htim, TIM_FLAG_COM);
+      __HAL_TIM_CLEAR_FLAG(htim, TIM_FLAG_COM);
 #if (USE_HAL_TIM_REGISTER_CALLBACKS == 1)
       htim->CommutationCallback(htim);
 #else
@@ -4478,7 +4478,8 @@ HAL_StatusTypeDef HAL_TIM_OnePulse_ConfigChannel(TIM_HandleTypeDef *htim,  TIM_O
   * @retval HAL status
   */
 HAL_StatusTypeDef HAL_TIM_DMABurst_WriteStart(TIM_HandleTypeDef *htim, uint32_t BurstBaseAddress,
-                                              uint32_t BurstRequestSrc, const uint32_t *BurstBuffer, uint32_t  BurstLength)
+                                              uint32_t BurstRequestSrc, const uint32_t *BurstBuffer,
+                                              uint32_t  BurstLength)
 {
   HAL_StatusTypeDef status;
 
@@ -6943,7 +6944,6 @@ void TIM_OC2_SetConfig(TIM_TypeDef *TIMx, const TIM_OC_InitTypeDef *OC_Config)
     tmpccer |= (OC_Config->OCNPolarity << 4U);
     /* Reset the Output N State */
     tmpccer &= ~TIM_CCER_CC2NE;
-
   }
 
   if (IS_TIM_BREAK_INSTANCE(TIMx))
