@@ -973,6 +973,11 @@ HAL_StatusTypeDef HAL_SPI_Receive(SPI_HandleTypeDef *hspi, uint8_t *pData, uint1
     return HAL_BUSY;
   }
 
+  if ((pData == NULL) || (Size == 0U))
+  {
+    return HAL_ERROR;
+  }
+
   if ((hspi->Init.Mode == SPI_MODE_MASTER) && (hspi->Init.Direction == SPI_DIRECTION_2LINES))
   {
     hspi->State = HAL_SPI_STATE_BUSY_RX;
@@ -982,11 +987,6 @@ HAL_StatusTypeDef HAL_SPI_Receive(SPI_HandleTypeDef *hspi, uint8_t *pData, uint1
 
   /* Init tickstart for timeout management*/
   tickstart = HAL_GetTick();
-
-  if ((pData == NULL) || (Size == 0U))
-  {
-    return HAL_ERROR;
-  }
 
   /* Process Locked */
   __HAL_LOCK(hspi);
@@ -1527,6 +1527,11 @@ HAL_StatusTypeDef HAL_SPI_Receive_IT(SPI_HandleTypeDef *hspi, uint8_t *pData, ui
     return HAL_BUSY;
   }
 
+  if ((pData == NULL) || (Size == 0U))
+  {
+    return HAL_ERROR;
+  }
+
   if ((hspi->Init.Direction == SPI_DIRECTION_2LINES) && (hspi->Init.Mode == SPI_MODE_MASTER))
   {
     hspi->State = HAL_SPI_STATE_BUSY_RX;
@@ -1534,11 +1539,6 @@ HAL_StatusTypeDef HAL_SPI_Receive_IT(SPI_HandleTypeDef *hspi, uint8_t *pData, ui
     return HAL_SPI_TransmitReceive_IT(hspi, pData, pData, Size);
   }
 
-
-  if ((pData == NULL) || (Size == 0U))
-  {
-    return HAL_ERROR;
-  }
 
   /* Process Locked */
   __HAL_LOCK(hspi);
@@ -1811,6 +1811,11 @@ HAL_StatusTypeDef HAL_SPI_Receive_DMA(SPI_HandleTypeDef *hspi, uint8_t *pData, u
     return HAL_BUSY;
   }
 
+  if ((pData == NULL) || (Size == 0U))
+  {
+    return HAL_ERROR;
+  }
+
   if ((hspi->Init.Direction == SPI_DIRECTION_2LINES) && (hspi->Init.Mode == SPI_MODE_MASTER))
   {
     hspi->State = HAL_SPI_STATE_BUSY_RX;
@@ -1820,11 +1825,6 @@ HAL_StatusTypeDef HAL_SPI_Receive_DMA(SPI_HandleTypeDef *hspi, uint8_t *pData, u
 
     /* Call transmit-receive function to send Dummy data on Tx line and generate clock on CLK line */
     return HAL_SPI_TransmitReceive_DMA(hspi, pData, pData, Size);
-  }
-
-  if ((pData == NULL) || (Size == 0U))
-  {
-    return HAL_ERROR;
   }
 
   /* Process Locked */
