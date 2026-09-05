@@ -256,9 +256,6 @@ uint32_t HAL_SYSTICK_Config(uint32_t TicksNumb)
   */
 void HAL_MPU_Disable(void)
 {
-  /* Make sure outstanding transfers are done */
-  __DMB();
-
   /* Disable fault exceptions */
   SCB->SHCSR &= ~SCB_SHCSR_MEMFAULTENA_Msk;
   

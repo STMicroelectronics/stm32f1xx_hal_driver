@@ -504,8 +504,6 @@ __STATIC_INLINE void LL_MPU_Enable(uint32_t Options)
   */
 __STATIC_INLINE void LL_MPU_Disable(void)
 {
-  /* Make sure outstanding transfers are done */
-  __DMB();
   /* Disable MPU*/
   WRITE_REG(MPU->CTRL, 0U);
 }
