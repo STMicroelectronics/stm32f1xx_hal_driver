@@ -735,6 +735,65 @@ typedef struct
   */
 
 /**
+  * @brief  Helper function to convert PLL multiplication factor value to register value
+  * @note   PLLMul range is [2, 16]
+  * @param  PLLMul PLL multiplication factor
+  * @retval Returned value can be one of the following values:
+  *         @arg RCC_PLL_MUL2
+  *         @arg RCC_PLL_MUL3
+  *         @arg RCC_PLL_MUL4
+  *         @arg RCC_PLL_MUL5
+  *         @arg RCC_PLL_MUL6
+  *         @arg RCC_PLL_MUL7
+  *         @arg RCC_PLL_MUL8
+  *         @arg RCC_PLL_MUL9
+  *         @arg RCC_PLL_MUL10
+  *         @arg RCC_PLL_MUL11
+  *         @arg RCC_PLL_MUL12
+  *         @arg RCC_PLL_MUL13
+  *         @arg RCC_PLL_MUL14
+  *         @arg RCC_PLL_MUL15
+  *         @arg RCC_PLL_MUL16
+  */
+__STATIC_INLINE uint32_t LL_RCC_ToReg_PLLMul(uint16_t PLLMul) {
+  return RCC_PLL_MUL3 * (PLLMul - 2); // PLLMul = [2,16]
+}
+
+/**
+  * @brief  Helper function to convert AHB prescaler value to register value
+  * @param  AHBPrescaler AHB prescaler value
+  * @retval Returned value can be one of the following values:
+  *         @arg RCC_SYSCLK_DIV1
+  *         @arg RCC_SYSCLK_DIV2
+  *         @arg RCC_SYSCLK_DIV4
+  *         @arg RCC_SYSCLK_DIV8
+  *         @arg RCC_SYSCLK_DIV16
+  *         @arg RCC_SYSCLK_DIV64
+  *         @arg RCC_SYSCLK_DIV128
+  *         @arg RCC_SYSCLK_DIV256
+  *         @arg RCC_SYSCLK_DIV512
+  */
+__STATIC_INLINE uint32_t LL_RCC_ToReg_AHBPrescaler(uint16_t AHBPrescaler) {
+  static const uint8_t RegAHBPrescTable[9U] = {RCC_SYSCLK_DIV1, RCC_SYSCLK_DIV2, RCC_SYSCLK_DIV4, RCC_SYSCLK_DIV8, RCC_SYSCLK_DIV16, RCC_SYSCLK_DIV64, RCC_SYSCLK_DIV128, RCC_SYSCLK_DIV256, RCC_SYSCLK_DIV512};
+  return RegAHBPrescTable[31 - __CLZ(AHBPrescaler)]; // RegAHBPrescTable[log2(AHBPrescaler)]
+}
+
+/**
+  * @brief  Helper function to convert HCLK prescaler value to register value
+  * @param  HCLKPrescaler HCLK prescaler value
+  * @retval Returned value can be one of the following values:
+  *         @arg RCC_HCLK_DIV1
+  *         @arg RCC_HCLK_DIV2
+  *         @arg RCC_HCLK_DIV4
+  *         @arg RCC_HCLK_DIV8
+  *         @arg RCC_HCLK_DIV16
+  */
+__STATIC_INLINE uint32_t LL_RCC_ToReg_HCLKPrescaler(uint16_t HCLKPrescaler) {
+  static const uint16_t RegHCLKPrescTable[5U] = {RCC_HCLK_DIV1, RCC_HCLK_DIV2, RCC_HCLK_DIV4, RCC_HCLK_DIV8, RCC_HCLK_DIV16};
+  return RegHCLKPrescTable[31 - __CLZ(HCLKPrescaler)]; // RegHCLKPrescTable[log2(HCLKPrescaler)]
+}
+
+/**
   * @brief  Enable the Clock Security System.
   * @rmtoll CR           CSSON         LL_RCC_HSE_EnableCSS
   * @retval None
