@@ -761,7 +761,7 @@ __STATIC_INLINE uint32_t LL_RCC_ToReg_PLLMul(uint16_t PLLMul) {
 
 /**
   * @brief  Helper function to convert AHB prescaler value to register value
-  * @param  AHBPrescaler AHB prescaler value
+  * @param  AHBPrescaler AHB prescaler value (1, 2, 4, 8, 16, 64, 128, 256, 512)
   * @retval Returned value can be one of the following values:
   *         @arg RCC_SYSCLK_DIV1
   *         @arg RCC_SYSCLK_DIV2
@@ -774,13 +774,13 @@ __STATIC_INLINE uint32_t LL_RCC_ToReg_PLLMul(uint16_t PLLMul) {
   *         @arg RCC_SYSCLK_DIV512
   */
 __STATIC_INLINE uint32_t LL_RCC_ToReg_AHBPrescaler(uint16_t AHBPrescaler) {
-  static const uint8_t RegAHBPrescTable[9U] = {RCC_SYSCLK_DIV1, RCC_SYSCLK_DIV2, RCC_SYSCLK_DIV4, RCC_SYSCLK_DIV8, RCC_SYSCLK_DIV16, RCC_SYSCLK_DIV64, RCC_SYSCLK_DIV128, RCC_SYSCLK_DIV256, RCC_SYSCLK_DIV512};
+  static const uint8_t RegAHBPrescTable[10U] = {RCC_SYSCLK_DIV1, RCC_SYSCLK_DIV2, RCC_SYSCLK_DIV4, RCC_SYSCLK_DIV8, RCC_SYSCLK_DIV16, 0, RCC_SYSCLK_DIV64, RCC_SYSCLK_DIV128, RCC_SYSCLK_DIV256, RCC_SYSCLK_DIV512};
   return RegAHBPrescTable[31 - __CLZ(AHBPrescaler)]; // RegAHBPrescTable[log2(AHBPrescaler)]
 }
 
 /**
   * @brief  Helper function to convert HCLK prescaler value to register value
-  * @param  HCLKPrescaler HCLK prescaler value
+  * @param  HCLKPrescaler HCLK prescaler value (1, 2, 4, 8, 16)
   * @retval Returned value can be one of the following values:
   *         @arg RCC_HCLK_DIV1
   *         @arg RCC_HCLK_DIV2
